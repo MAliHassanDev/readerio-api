@@ -1,0 +1,30 @@
+{
+  "name": "readerio-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "tsx watch ./src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@fastify/autoload": "^6.0.3",
+    "@fastify/cors": "^10.0.2",
+    "@fastify/env": "^5.0.2",
+    "@fastify/jwt": "^9.0.3",
+    "fastify": "^5.2.1",
+    "fastify-plugin": "^5.0.1",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
+    "zod": "^3.24.1",
+    "zod-to-json-schema": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "@types/pino": "^7.0.4",
+    "tsx": "^4.19.2"
+  }
+}
