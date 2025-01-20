@@ -13,11 +13,10 @@ const configSchema = z.object({
 
 const configJsonSchema = zodToJsonSchema(configSchema);
 declare module "fastify" {
-  export interface FastifyInstance {
+  interface FastifyInstance {
     config: z.infer<typeof configSchema>
   }
 }
-
 export default fp(async function (fastify: FastifyInstance) {
   const options = {
     data: process.env,
