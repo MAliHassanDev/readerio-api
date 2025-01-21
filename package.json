@@ -16,6 +16,7 @@
     "@fastify/env": "^5.0.2",
     "@fastify/jwt": "^9.0.3",
     "@fastify/mysql": "^5.0.2",
+    "bcrypt": "^5.1.1",
     "fastify": "^5.2.1",
     "fastify-plugin": "^5.0.1",
     "pino": "^9.6.0",
