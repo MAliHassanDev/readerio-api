@@ -3,6 +3,9 @@ import userRoutes from "../modules/user/user.routes";
 import AutoLoad from "@fastify/autoload";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
+import dbSetup from "../database/setup.js";
+import ErrorHandler from "../core/errors/errorHandler.js";
+
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export const fastify = Fastify({
@@ -20,6 +23,9 @@ export const fastify = Fastify({
 
 
 async function initializeFastify() {
+  // Error handler
+  fastify.setErrorHandler(ErrorHandler);
+  
   // Plugins
   await fastify.register(AutoLoad, {
     dir: join(__dirname, "..", "plugins")
