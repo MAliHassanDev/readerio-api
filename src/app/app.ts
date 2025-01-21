@@ -31,8 +31,12 @@ async function initializeFastify() {
     dir: join(__dirname, "..", "plugins")
   })
 
+  // database setup
+  await fastify.register(dbSetup);
+
   // Routes
   await fastify.register(userRoutes,{prefix: "/api/vi/users"});
+
 
   return fastify;
 }
