@@ -6,25 +6,30 @@ const userCore = {
   email: z.string().email(),
 };
 
-// POST /create Request Schema
 const createUser = z.object({
   password: z.string().min(8),
   ...userCore,
 });
 
-export const createUserSchema = zodToJsonSchema(createUser);
 
-export type CreateUserBody = z.infer<typeof createUser>;
-
-// POST /create Response Schema
 const createUserResponse = z.object({
   user: z.object({
-   ...userCore
+    ...userCore,
   }),
-  token: z.string()
+  token: z.string(),
 });
 
+
+const getUserResponse = z.object({
+  ...userCore
+})
+
+// types
+export type User = z.infer<typeof createUser> & {id?:number|string};
+
+
+// schemas
+export const createUserSchema = zodToJsonSchema(createUser);
 export const createUserResponseSchema = zodToJsonSchema(createUserResponse);
 
-
-
+export const getUserResponseSchema = zodToJsonSchema(getUserResponse); 
