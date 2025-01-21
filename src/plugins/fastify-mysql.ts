@@ -9,8 +9,9 @@ declare module "fastify" {
 }
 
 export default fp(async (fastify: FastifyInstance) => {
+  const {MYSQL_DATABASE,MYSQL_HOST,MYSQL_USER, MYSQL_PASSWORD} = fastify.config;
   await fastify.register(fastifyMysql, {
     promise: true,
-    connectionString: "mysql://hassan:hassan1122@db/readerdb",
+    connectionString: `mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}/${MYSQL_DATABASE}`,
   });
 });

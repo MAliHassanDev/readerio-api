@@ -7,8 +7,13 @@ import { z } from "zod";
 
 const configSchema = z.object({
   PORT: z.string().default("3000"),
+  HOST: z.string().default("0.0.0.0"),
   AVATAR_API: z.string().default("https://ui-avatars.com/api/"),
-  JWT_SECRET: z.string().default("aldjfkajsdlfjalskdjfljdsad")
+  JWT_SECRET: z.string().default("aldjfkajsdlfjalskdjfljdsad"),
+  MYSQL_USER: z.string(),
+  MYSQL_DATABASE: z.string(),
+  MYSQL_PASSWORD: z.string(),
+  MYSQL_HOST: z.string(),
 })
 
 const configJsonSchema = zodToJsonSchema(configSchema);
