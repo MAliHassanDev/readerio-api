@@ -1,8 +1,12 @@
 import { FastifyInstance } from "fastify";
-import { createUserResponseSchema, createUserSchema } from "./user.schemas";
-import { createUserHandler, getUserHandler } from "./user.controller";
+import { createUserResponseSchema, createUserSchema, getUserResponseSchema } from "./user.schemas";
+import UserHandler from "./user.controller";
+import UserService from "./user.service";
+import UserRepository from "./user.repository";
 
 export default async function userRoutes(fastify: FastifyInstance) {
+  const userHandler = new UserHandler(new UserService(new UserRepository(fastify.mysql)));
+
   fastify.post("/", {
     schema: {
       body: createUserSchema,
@@ -10,11 +14,16 @@ export default async function userRoutes(fastify: FastifyInstance) {
         201: createUserResponseSchema
       }
     }
-  }, createUserHandler);
+  }, userHandler.createUser);
   
   fastify.get("/", {
-    onRequest: fastify.authenticate
-  }, getUserHandler);
+    onRequest: fastify.authenticate,
+    schema: {
+      response: {
+        200: getUserResponseSchema
+      }
+    }
+  }, userHandler.getUser);
 }
 
 
