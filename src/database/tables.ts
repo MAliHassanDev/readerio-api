@@ -7,7 +7,7 @@ const tables = {
       email VARCHAR(100),
       PRIMARY KEY(id)
     )
-  `
+  `,
 } as const;
 
 export default tables;

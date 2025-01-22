@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { User } from "./user.schemas";
-import { fastify } from "../../app/app";
 import UserService from "./user.service";
 import { NotFoundException } from "../../lib/exception";
 

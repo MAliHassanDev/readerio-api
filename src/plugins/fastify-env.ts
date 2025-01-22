@@ -4,7 +4,6 @@ import fp from "fastify-plugin";
 import zodToJsonSchema from "zod-to-json-schema";
 import { z } from "zod";
 
-
 const configSchema = z.object({
   PORT: z.string().default("3000"),
   HOST: z.string().default("0.0.0.0"),
@@ -14,12 +13,12 @@ const configSchema = z.object({
   MYSQL_DATABASE: z.string(),
   MYSQL_PASSWORD: z.string(),
   MYSQL_HOST: z.string(),
-})
+});
 
 const configJsonSchema = zodToJsonSchema(configSchema);
 declare module "fastify" {
   interface FastifyInstance {
-    config: z.infer<typeof configSchema>
+    config: z.infer<typeof configSchema>;
   }
 }
 export default fp(async function (fastify: FastifyInstance) {
@@ -31,4 +30,3 @@ export default fp(async function (fastify: FastifyInstance) {
   };
   await fastify.register(fastifyEnv, options);
 });
- 

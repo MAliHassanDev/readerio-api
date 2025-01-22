@@ -1,16 +1,14 @@
-import { FastifyInstance, FastifyPluginOptions } from "fastify";
+import { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import tables from "./tables";
 
-
-export default fp(async function mysqlSetup(
-  fastify: FastifyInstance,
-  options: FastifyPluginOptions,
-) {
+export default fp(async function mysqlSetup(fastify: FastifyInstance) {
   const mysql = fastify.mysql;
   try {
     // create database if not exits
-    await mysql.query(`CREATE DATABASE IF NOT EXISTS ${fastify.config.MYSQL_DATABASE}`);
+    await mysql.query(
+      `CREATE DATABASE IF NOT EXISTS ${fastify.config.MYSQL_DATABASE}`,
+    );
     await mysql.query(`USE ${fastify.config.MYSQL_DATABASE}`);
     // create tables
     for (const [tableName, createTableQuery] of Object.entries(tables)) {
@@ -25,4 +23,4 @@ export default fp(async function mysqlSetup(
     fastify.log.error("Database setup failed", err);
     throw err;
   }
-})
+});

@@ -1,40 +1,41 @@
 import { MySQLPromisePool, ResultSetHeader } from "@fastify/mysql";
-import { fastify } from "../../app/app";
 import Repository from "../../core/repository/IRepository";
 import { User } from "./user.schemas";
+import { RowDataPacket } from "@fastify/mysql";
+
+interface UserRow extends RowDataPacket, User {}
 
 class UserRepository implements Repository<User> {
   public constructor(private readonly db: MySQLPromisePool) {}
 
   public async findAll(): Promise<User[]> {
-    const [rows, fields] = await this.db.query(`SELECT * FROM users;`);
-    return rows as User[];
+    const [rows] = await this.db.query<UserRow[]>(`SELECT * FROM users;`);
+    return rows;
   }
 
   public async insert(user: User): Promise<User> {
     const values = Object.values(user);
-    const [result, _] = await this.db.query(
+    const [{ insertId }] = await this.db.query<ResultSetHeader>(
       `INSERT INTO users(name,email,password) VALUES (?)`,
       [values],
     );
-    const { insertId } = result as ResultSetHeader;
-    return (await this.findById(insertId)) as User;
+    return await this.findById(insertId);
   }
 
   public async findById(id: string | number) {
-    const [rows, fields] = await this.db.query(
+    const [rows] = await this.db.query<UserRow[]>(
       "SELECT * FROM users WHERE id = ?",
       [id],
     );
-    return rows ? rows[0] : null;
+    return rows[0];
   }
 
   public async find(column: keyof User, value: string) {
-    const [rows, fields] = await this.db.query(
+    const [rows] = await this.db.query<UserRow[]>(
       `SELECT * FROM users WHERE ${this.db.escapeId(column)} = ?`,
       [value],
     );
-    return rows[0] ?? null;
+    return rows[0];
   }
 }
 

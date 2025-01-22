@@ -9,13 +9,11 @@ declare module "fastify" {
   }
 }
 
-
-
 export default fp(async (fastify: FastifyInstance) => {
   fastify.register(fastifyJwt, {
     secret: fastify.config.JWT_SECRET,
   });
- 
+
   fastify.decorate(
     "authenticate",
     async (req: FastifyRequest, rep: FastifyReply) => {

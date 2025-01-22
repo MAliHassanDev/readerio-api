@@ -1,4 +1,3 @@
-
 export class ApiException extends Error {
   public constructor(
     public readonly message = "The request failed due to an internal error",

@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 import dbSetup from "../database/setup.js";
 import ErrorHandler from "../core/errors/errorHandler.js";
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export const fastify = Fastify({
   logger: {
@@ -21,22 +21,20 @@ export const fastify = Fastify({
   },
 });
 
-
 async function initializeFastify() {
   // Error handler
   fastify.setErrorHandler(ErrorHandler);
-  
+
   // Plugins
   await fastify.register(AutoLoad, {
-    dir: join(__dirname, "..", "plugins")
-  })
+    dir: join(__dirname, "..", "plugins"),
+  });
 
   // database setup
   await fastify.register(dbSetup);
 
   // Routes
-  await fastify.register(userRoutes,{prefix: "/api/vi/users"});
-
+  await fastify.register(userRoutes, { prefix: "/api/vi/users" });
 
   return fastify;
 }

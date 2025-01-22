@@ -4,8 +4,8 @@ import { User } from "./user.schemas";
 import bcrypt from "bcrypt";
 
 class UserService {
-  public constructor(private readonly userRepository: Repository<User>) { };
-  
+  public constructor(private readonly userRepository: Repository<User>) {}
+
   public async createUser(userInput: User) {
     const { password, ...rest } = userInput;
     const hashPassword = await bcrypt.hash(password, 10);
@@ -13,14 +13,16 @@ class UserService {
     if (duplicate) {
       throw new DuplicateException("User already exits");
     }
-    const user = await this.userRepository.insert({...rest,password:hashPassword})
+    const user = await this.userRepository.insert({
+      ...rest,
+      password: hashPassword,
+    });
     return user;
   }
 
-  public async getUser(id:number|string) {
+  public async getUser(id: number | string) {
     return await this.userRepository.findById(id);
   }
-
 }
 
 export default UserService;

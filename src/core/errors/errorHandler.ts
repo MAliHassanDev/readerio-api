@@ -1,34 +1,33 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { ApiException, DuplicateException } from '../../lib/exception';
+import { ApiException } from "../../lib/exception";
 
-interface FastifyErrorType extends ApiException { }; 
+type FastifyErrorType = {
+  code: string;
+  statusCode: number;
+  message: string;
+} & Error;
 
 export default function ErrorHandler(
-  error: ApiException|Error|FastifyErrorType,
-  request: FastifyRequest,
+  error: ApiException | Error | FastifyErrorType,
+  _: FastifyRequest,
   reply: FastifyReply,
 ) {
-  
-
   if (error instanceof ApiException || isFastifyError(error)) {
-    const { code,statusCode,message } = error; 
+    const { code, statusCode, message } = error;
     return reply.code(statusCode).send({
       statusCode,
       code,
-      message
-   });  
+      message,
+    });
   }
-  
+
   reply.code(500).send({
     statusCode: 500,
     code: "Internal Server Error",
-    message: "The request failed due to an internal error."
+    message: "The request failed due to an internal error.",
   });
 }
 
-
-function isFastifyError(error:Error): error is FastifyErrorType {
-  return Object.hasOwn(error, "code") && Object.hasOwn(error,"statusCode");
+function isFastifyError(error: Error): error is FastifyErrorType {
+  return Object.hasOwn(error, "code") && Object.hasOwn(error, "statusCode");
 }
-
-
