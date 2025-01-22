@@ -22,6 +22,8 @@
     "outDir": "build",
     // create source map files for the emitted javascript files
     "sourceMap": true,
+    // don't check the types of dependencies
+    "skipLibCheck": true,
     /* ---------------------------------------- Linting ------------------------------- */
     // enables strict type checking
     "strict": true,
