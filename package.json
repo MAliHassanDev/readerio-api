@@ -3,8 +3,27 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "tsx watch ./src/server.ts"
+    "dev": "tsx watch --inspect=0.0.0.0:9229 ./src/index.ts",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json",
+    "build:debug": "tsc -p tsconfig.json",
+    "start": "node ./build/index.js",
+    "prestart": "npm run build",
+    "format:write": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint .",
+    "ci": "npm run format:check && npm run lint && npm run test && npm run build",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint  --no-warn-ignored   --max-warnings 0"
+    ],
+    "*.md": [
+      "prettier --write"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -28,6 +47,16 @@
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^22.10.7",
     "@types/pino": "^7.0.4",
-    "tsx": "^4.19.2"
+    "@eslint/js": "^9.16.0",
+    "tsx": "^4.19.2",
+    "eslint": "^9.16.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.17.0",
+    "vitest": "^2.1.8"
   }
 }
