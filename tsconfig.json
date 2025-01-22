@@ -1,37 +1,35 @@
 {
   "compilerOptions": {
-    /* ------------------------------------ Environment ------------------------------- */
-    // target version of javascript
     "target": "ES6",
-    // Ensures every non-declaration file is treated as module
     "moduleDetection": "force",
-    /* -------------------------------------- Bundler --------------------------------*/
     "lib": ["ES2024"],
-    // sets the module system for the program
     "module": "nodeNext",
-    /*
-       picks the right algorithm for module resolution based on whether Node.js will see an import or require
-       in emitted js. (nodeNext or  node16) requires file extensions in imports.
-    */
     "moduleResolution": "nodeNext",
-    // makes transformation  es6 imports to commandJs and vice versa compatible
     "esModuleInterop": true,
-    // forces consistent file names between files on disk and newly created program files
     "forceConsistentCasingInFileNames": true,
-    // source directory for emitted files
-    "outDir": "build",
-    // create source map files for the emitted javascript files
+    "outDir": "dist",
     "sourceMap": true,
-    // don't check the types of dependencies
     "skipLibCheck": true,
-    /* ---------------------------------------- Linting ------------------------------- */
-    // enables strict type checking
+    "baseUrl": "./src",
+    "paths": {
+      "@app/*": ["./app/*"],
+      "@lib/*": ["./lib/*"],
+      "@modules/*": ["./modules/*"],
+      "@plugins/*": ["./plugins/*"],
+      "@core/*": ["./core/*"],
+      "@database/*": ["./database/*"]
+    },
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths",
+        "tsConfig": "./tsconfig.build.json"
+      }
+    ],
+
+    // linting
     "strict": true,
-    // reports errors on unused local variables
     "noUnusedLocals": true,
-    // reports errors on unused  parameters
     "noUnusedParameters": true,
-    // Ensures that any non-empty case inside a switch statement includes either break, return, or throw.
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src", "tests"],

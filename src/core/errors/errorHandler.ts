@@ -12,6 +12,7 @@ export default function ErrorHandler(
   _: FastifyRequest,
   reply: FastifyReply,
 ) {
+  console.log(error);
   if (error instanceof ApiException || isFastifyError(error)) {
     const { code, statusCode, message } = error;
     return reply.code(statusCode).send({
@@ -20,6 +21,7 @@ export default function ErrorHandler(
       message,
     });
   }
+
   reply.code(500).send({
     statusCode: 500,
     code: "Internal Server Error",

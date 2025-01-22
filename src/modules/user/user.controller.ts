@@ -1,7 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { User } from "./user.schemas.js";
 import UserService from "./user.service.js";
-import { NotFoundException } from "@lib/exception.js";
 
 class UserHandler {
   public constructor(private readonly userService: UserService) {}
@@ -9,8 +8,7 @@ class UserHandler {
   public getUser = async (req: FastifyRequest, rep: FastifyReply) => {
     const { id } = req.user as { id: number | string };
     const user = await this.userService.getUser(id);
-    if (!user) throw new NotFoundException();
-    console.log(user);
+    if (!user) rep.notFound("User not found");
     rep.send(user);
   };
 

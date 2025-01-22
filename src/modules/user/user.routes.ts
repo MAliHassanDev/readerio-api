@@ -7,11 +7,12 @@ import {
 import UserHandler from "./user.controller.js";
 import UserService from "./user.service.js";
 import UserRepository from "./user.repository.js";
+import bcrypt from "bcrypt";
 
 export default async function userRoutes(fastify: FastifyInstance) {
-  const userHandler = new UserHandler(
-    new UserService(new UserRepository(fastify.mysql)),
-  );
+  const userRepository = new UserRepository(fastify.mysql);
+  const userService = new UserService(userRepository, fastify, bcrypt);
+  const userHandler = new UserHandler(userService);
 
   fastify.post(
     "/",
