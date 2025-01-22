@@ -20,7 +20,6 @@ export default function ErrorHandler(
       message,
     });
   }
-
   reply.code(500).send({
     statusCode: 500,
     code: "Internal Server Error",
