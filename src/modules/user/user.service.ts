@@ -1,5 +1,5 @@
-import Repository from "../../core/repository/IRepository.js";
-import { DuplicateException } from "../../lib/exception.js";
+import Repository from "@core/repository/IRepository.js";
+import { DuplicateException } from "@lib/exception.js";
 import { User } from "./user.schemas.js";
 import bcrypt from "bcrypt";
 

@@ -1,5 +1,5 @@
 import { MySQLPromisePool, ResultSetHeader } from "@fastify/mysql";
-import Repository from "../../core/repository/IRepository.js";
+import Repository from "@core/repository/IRepository.js";
 import { User } from "./user.schemas.js";
 import { RowDataPacket } from "@fastify/mysql";
 

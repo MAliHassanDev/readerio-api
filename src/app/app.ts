@@ -1,10 +1,10 @@
 import Fastify from "fastify";
-import userRoutes from "../modules/user/user.routes.js";
+import userRoutes from "@modules/user/user.routes.js";
 import AutoLoad from "@fastify/autoload";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import dbSetup from "../database/setup.js";
-import ErrorHandler from "../core/errors/errorHandler.js";
+import dbSetup from "@database/setup.js";
+import ErrorHandler from "@core/errors/errorHandler.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
