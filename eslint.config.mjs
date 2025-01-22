@@ -23,7 +23,7 @@ export default tseslint.config(
       ],
       "@typescript-eslint/array-type": ["error", { default: "array" }],
       "@typescript-eslint/no-unused-vars": "warn",
-      "@typescript-eslint/require-await": "off"
+      "@typescript-eslint/require-await": "off",
     },
   },
   {
