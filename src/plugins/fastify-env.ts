@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import fastifyEnv from "@fastify/env";
 import fp from "fastify-plugin";
-import zodToJsonSchema from "zod-to-json-schema";
+import { zodToJsonSchema } from "zod-to-json-schema";
 import { z } from "zod";
 
 const configSchema = z.object({

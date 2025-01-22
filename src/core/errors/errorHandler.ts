@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { ApiException } from "../../lib/exception";
+import { ApiException } from "../../lib/exception.js";
 
 type FastifyErrorType = {
   code: string;

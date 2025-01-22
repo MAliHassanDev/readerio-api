@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import initializeFastify from "./app/app";
+import initializeFastify from "./app/app.js";
 
 class Server {
   public constructor(private readonly app: FastifyInstance) {}

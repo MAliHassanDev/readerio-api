@@ -1,6 +1,6 @@
-import Repository from "../../core/repository/IRepository";
-import { DuplicateException } from "../../lib/exception";
-import { User } from "./user.schemas";
+import Repository from "../../core/repository/IRepository.js";
+import { DuplicateException } from "../../lib/exception.js";
+import { User } from "./user.schemas.js";
 import bcrypt from "bcrypt";
 
 class UserService {

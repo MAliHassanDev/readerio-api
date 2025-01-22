@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { User } from "./user.schemas";
-import UserService from "./user.service";
-import { NotFoundException } from "../../lib/exception";
+import { User } from "./user.schemas.js";
+import UserService from "./user.service.js";
+import { NotFoundException } from "../../lib/exception.js";
 
 class UserHandler {
   public constructor(private readonly userService: UserService) {}

@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
-import tables from "./tables";
+import tables from "./tables.js";
 
 export default fp(async function mysqlSetup(fastify: FastifyInstance) {
   const mysql = fastify.mysql;

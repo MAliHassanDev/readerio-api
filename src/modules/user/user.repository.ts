@@ -1,6 +1,6 @@
 import { MySQLPromisePool, ResultSetHeader } from "@fastify/mysql";
-import Repository from "../../core/repository/IRepository";
-import { User } from "./user.schemas";
+import Repository from "../../core/repository/IRepository.js";
+import { User } from "./user.schemas.js";
 import { RowDataPacket } from "@fastify/mysql";
 
 interface UserRow extends RowDataPacket, User {}

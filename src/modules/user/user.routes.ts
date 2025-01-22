@@ -3,10 +3,10 @@ import {
   createUserResponseSchema,
   createUserSchema,
   getUserResponseSchema,
-} from "./user.schemas";
-import UserHandler from "./user.controller";
-import UserService from "./user.service";
-import UserRepository from "./user.repository";
+} from "./user.schemas.js";
+import UserHandler from "./user.controller.js";
+import UserService from "./user.service.js";
+import UserRepository from "./user.repository.js";
 
 export default async function userRoutes(fastify: FastifyInstance) {
   const userHandler = new UserHandler(
