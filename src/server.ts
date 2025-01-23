@@ -26,27 +26,31 @@ async function main() {
     server = new Server(fastify);
     await server.start();
   } catch (err: unknown) {
-    fastify?.log.error(err);
-    await server?.shutdown();
+    if (!fastify || !server) {
+      console.error("Failed to initialize fastify: ", err);
+      process.exit(1);
+    }
+    fastify.log.error(err);
+    await server.shutdown();
   }
   process.on("uncaughtException", (error: Error) => {
-    fastify?.log.error("Uncaught Error", error);
-    void server?.shutdown();
+    fastify.log.error("Uncaught Error", error);
+    void server.shutdown();
   });
 
   process.on("SIGINT", (signal: NodeJS.Signals) => {
-    fastify?.log.info(`Received ${signal} signal.`);
-    void server?.shutdown();
+    fastify.log.info(`Received ${signal} signal.`);
+    void server.shutdown();
   });
 
   process.on("SIGTERM", (signal: NodeJS.Signals) => {
-    fastify?.log.info(`Received ${signal} signal.`);
-    void server?.shutdown();
+    fastify.log.info(`Received ${signal} signal.`);
+    void server.shutdown();
   });
 
   process.on("unhandledRejection", (reason: string) => {
-    fastify?.log.error(`Unhandled Promise: ${reason}.`);
-    void server?.shutdown();
+    fastify.log.error(`Unhandled Promise: ${reason}.`);
+    void server.shutdown();
   });
 }
 
