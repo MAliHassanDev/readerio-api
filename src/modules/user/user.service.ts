@@ -1,18 +1,18 @@
 import Repository from "@core/repository/IRepository.js";
 import { User } from "./user.schemas.js";
-import Bcrypt from "bcrypt";
 import { FastifyInstance } from "fastify";
+import { PasswordHasher } from "@lib/passwordHasher.js";
 
 class UserService {
   public constructor(
     private readonly userRepository: Repository<User>,
     private readonly fastify: FastifyInstance,
-    private readonly bcrypt: typeof Bcrypt,
+    private readonly passwordHasher: PasswordHasher,
   ) {}
 
   public async createUser(userInput: User) {
     const { password, ...rest } = userInput;
-    const hashPassword = await this.bcrypt.hash(password, 10);
+    const hashPassword = await this.passwordHasher.hash(password);
     const duplicate = await this.userRepository.find("email", rest.email);
     if (duplicate) {
       throw this.fastify.httpErrors.conflict("User already exits");

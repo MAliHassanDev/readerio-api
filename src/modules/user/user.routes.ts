@@ -7,11 +7,15 @@ import {
 import UserHandler from "./user.controller.js";
 import UserService from "./user.service.js";
 import UserRepository from "./user.repository.js";
-import bcrypt from "bcrypt";
+import { PasswordHasher } from "@lib/passwordHasher.js";
 
 export default async function userRoutes(fastify: FastifyInstance) {
   const userRepository = new UserRepository(fastify.mysql);
-  const userService = new UserService(userRepository, fastify, bcrypt);
+  const userService = new UserService(
+    userRepository,
+    fastify,
+    new PasswordHasher(),
+  );
   const userHandler = new UserHandler(userService);
 
   fastify.post(
