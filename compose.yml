@@ -7,8 +7,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./:/usr/code/app
-      - /usr/code/app/node_modules
+      - ./src:/usr/code/app/src
     depends_on:
       db:
         condition: service_healthy
