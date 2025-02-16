@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ES2022",
     "moduleDetection": "force",
     "lib": ["ES2024"],
     "module": "nodeNext",

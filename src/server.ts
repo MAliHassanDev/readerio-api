@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import initializeFastify from "@app/app.js";
 
-class Server {
+export class Server {
   public constructor(private readonly app: FastifyInstance) {}
 
   public start = async () => {
@@ -13,6 +13,7 @@ class Server {
 
   public shutdown: () => Promise<void> = async () => {
     this.app.log.info("Gracefully shutting down...");
+    await this.app.db.destroy();
     await this.app.close();
     process.exit();
   };
@@ -25,6 +26,7 @@ async function main() {
     fastify = await initializeFastify();
     server = new Server(fastify);
     await server.start();
+    return fastify;
   } catch (err: unknown) {
     if (!fastify || !server) {
       console.error("Failed to initialize fastify: ", err);

@@ -13,6 +13,7 @@ const configSchema = z.object({
   MYSQL_DATABASE: z.string(),
   MYSQL_PASSWORD: z.string(),
   MYSQL_HOST: z.string(),
+  MYSQL_MAX_CONNECTIONS: z.number().default(10),
 });
 
 const configJsonSchema = zodToJsonSchema(configSchema);

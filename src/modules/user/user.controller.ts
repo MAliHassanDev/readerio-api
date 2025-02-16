@@ -1,8 +1,8 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { User } from "./user.schemas.js";
 import UserService from "./user.service.js";
+import { NewUser } from "@database/types.js";
 
-class UserHandler {
+class UserController {
   public constructor(private readonly userService: UserService) {}
 
   public getUser = async (req: FastifyRequest, rep: FastifyReply) => {
@@ -13,7 +13,7 @@ class UserHandler {
   };
 
   public createUser = async (
-    req: FastifyRequest<{ Body: User }>,
+    req: FastifyRequest<{ Body: NewUser }>,
     rep: FastifyReply,
   ) => {
     const user = await this.userService.createUser(req.body);
@@ -25,4 +25,4 @@ class UserHandler {
   };
 }
 
-export default UserHandler;
+export default UserController;

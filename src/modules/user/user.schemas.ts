@@ -22,11 +22,7 @@ const getUserResponse = z.object({
   ...userCore,
 });
 
-// types
-export type User = z.infer<typeof createUser> & { id?: number | string };
-
 // schemas
 export const createUserSchema = zodToJsonSchema(createUser);
 export const createUserResponseSchema = zodToJsonSchema(createUserResponse);
-
 export const getUserResponseSchema = zodToJsonSchema(getUserResponse);

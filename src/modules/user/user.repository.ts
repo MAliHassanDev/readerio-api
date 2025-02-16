@@ -1,41 +1,27 @@
-import { MySQLPromisePool, ResultSetHeader } from "@fastify/mysql";
-import Repository from "@core/repository/IRepository.js";
-import { User } from "./user.schemas.js";
-import { RowDataPacket } from "@fastify/mysql";
+import { DatabaseInstance, User } from "@database/types.js";
+import { BaseRepository } from "base/repository/baseRepository.js";
 
-interface UserRow extends RowDataPacket, User {}
-
-class UserRepository implements Repository<User> {
-  public constructor(private readonly db: MySQLPromisePool) {}
-
-  public async findAll(): Promise<User[]> {
-    const [rows] = await this.db.query<UserRow[]>(`SELECT * FROM users;`);
-    return rows;
+class UserRepository extends BaseRepository<"user"> {
+  public constructor(db: DatabaseInstance) {
+    super(db, "user");
   }
 
-  public async insert(user: User): Promise<User> {
-    const values = Object.values(user);
-    const [{ insertId }] = await this.db.query<ResultSetHeader>(
-      `INSERT INTO users(name,email,password) VALUES (?)`,
-      [values],
-    );
-    return await this.findById(insertId);
-  }
+  public async find(criteria: Partial<User>): Promise<User[]> {
+    let query = this.db.selectFrom("user");
 
-  public async findById(id: string | number) {
-    const [rows] = await this.db.query<UserRow[]>(
-      "SELECT * FROM users WHERE id = ?",
-      [id],
-    );
-    return rows[0];
-  }
+    if (criteria.id) {
+      query = query.where("id", "=", criteria.id);
+    }
 
-  public async find(column: keyof User, value: string) {
-    const [rows] = await this.db.query<UserRow[]>(
-      `SELECT * FROM users WHERE ${this.db.escapeId(column)} = ?`,
-      [value],
-    );
-    return rows[0];
+    if (criteria.name) {
+      query = query.where("name", "=", criteria.name);
+    }
+
+    if (criteria.email) {
+      query = query.where("email", "=", criteria.email);
+    }
+
+    return await query.selectAll().execute();
   }
 }
 

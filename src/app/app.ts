@@ -3,11 +3,10 @@ import userRoutes from "@modules/user/user.routes.js";
 import AutoLoad from "@fastify/autoload";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import dbSetup from "@database/setup.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export const fastify = Fastify({
+const fastify = Fastify({
   logger: {
     transport: {
       target: "pino-pretty",
@@ -21,16 +20,13 @@ export const fastify = Fastify({
 });
 
 async function initializeFastify() {
-  // Plugins
-  await fastify.register(AutoLoad, {
+  /* --------------- Plugins ------------ */
+  fastify.register(AutoLoad, {
     dir: join(__dirname, "..", "plugins"),
   });
 
-  // database setup
-  await fastify.register(dbSetup);
-
-  // Routes
-  await fastify.register(userRoutes, { prefix: "/api/vi/users" });
+  /* --------------- Routes ------------ */
+  fastify.register(userRoutes, { prefix: "/api/vi/users" });
 
   return fastify;
 }
