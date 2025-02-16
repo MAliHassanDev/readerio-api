@@ -11,10 +11,10 @@ export interface Database {
 
 /* -------------------- User-Table -------------------- */
 export interface UserTable {
-  id: Generated<number>;
-  name: string;
+  readonly id: Generated<number>;
+  readonly name: string;
   password: string;
-  email: string;
+  readonly email: string;
 }
 
 export type User = Selectable<UserTable>;
