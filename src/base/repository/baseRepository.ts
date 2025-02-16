@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { Database, DatabaseInstance } from "@database/types.js";
 import { Insertable, Selectable } from "kysely";
 
-export class BaseRepository<K extends keyof Database> {
+export class Repository<K extends keyof Database> {
   public constructor(
     protected readonly db: DatabaseInstance,
     private readonly table: K,
@@ -14,38 +15,33 @@ export class BaseRepository<K extends keyof Database> {
       .values(row)
       .executeTakeFirstOrThrow();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return (await this.findById(Number(insertId!))) as Selectable<Database[K]>;
+    return (await this.findById(insertId!)) as Selectable<Database[K]>;
   }
 
-  public async findOne(criteria: Partial<Database[K]>) {
-    let query = this.db.selectFrom(this.table);
-
-    for (const key in criteria) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-      const value = criteria[key] as unknown as any;
-
-      query = query.where(key, "=", value);
-    }
-
-    return await query.selectAll().executeTakeFirst();
-  }
   // fetches all rows from the table
   public async findAll() {
     return await this.db.selectFrom(this.table).selectAll().execute();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async findById(id: any) {
+  // fetches a row by id
+  public async findById(id: string | number | bigint) {
+    const { ref } = this.db.dynamic;
     return await this.db
       .selectFrom(this.table)
-      .where("id", "=", id)
+      .where(ref("id"), "=", id)
       .selectAll()
       .executeTakeFirst();
   }
-}
 
-export class UserRepository extends BaseRepository<"user"> {
-  public constructor(db: DatabaseInstance) {
-    super(db, "user");
+  // fetches all rows that match the criteria
+  public async find(criteria: Partial<Selectable<Database[K]>>) {
+    let query = this.db.selectFrom(this.table);
+    const { ref } = this.db.dynamic;
+
+    for (const [key, value] of Object.entries(criteria)) {
+      query = query.where(ref(key), "=", value);
+    }
+
+    return await query.selectAll().execute();
   }
 }
