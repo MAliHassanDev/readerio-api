@@ -9,6 +9,7 @@ const configSchema = z.object({
   HOST: z.string().default("0.0.0.0"),
   AVATAR_API: z.string().default("https://ui-avatars.com/api/"),
   JWT_SECRET: z.string().default("aldjfkajsdlfjalskdjfljdsad"),
+  API_BASE_PREFIX: z.string().default("/api/v1"),
   MYSQL_USER: z.string(),
   MYSQL_DATABASE: z.string(),
   MYSQL_PASSWORD: z.string(),

@@ -1,25 +1,19 @@
-import { FastifyInstance } from "fastify";
+import { FastifyInstance, FastifyPluginOptions } from "fastify";
 import {
   createUserResponseSchema,
   createUserSchema,
   getUserResponseSchema,
 } from "./user.schemas.js";
 import UserController from "./user.controller.js";
-import UserService from "./user.service.js";
-import UserRepository from "./user.repository.js";
-import { PasswordHasher } from "@lib/passwordHasher.js";
 
-export default async function userRoutes(fastify: FastifyInstance) {
-  const userRepository = new UserRepository(fastify.db);
+interface UserRoutesOpts extends FastifyPluginOptions {
+  userController: UserController;
+}
 
-  const userService = new UserService(
-    userRepository,
-    fastify,
-    new PasswordHasher(),
-  );
-
-  const userHandler = new UserController(userService);
-
+export async function userRoutes(
+  fastify: FastifyInstance,
+  { userController }: UserRoutesOpts,
+) {
   fastify.post(
     "/",
     {
@@ -30,7 +24,7 @@ export default async function userRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    userHandler.createUser,
+    userController.createUser,
   );
 
   fastify.get(
@@ -43,6 +37,6 @@ export default async function userRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    userHandler.getUser,
+    userController.getUser,
   );
 }

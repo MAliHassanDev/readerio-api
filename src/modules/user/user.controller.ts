@@ -6,8 +6,8 @@ class UserController {
   public constructor(private readonly userService: UserService) {}
 
   public getUser = async (req: FastifyRequest, rep: FastifyReply) => {
-    const { id } = req.user as { id: number | string };
-    const user = await this.userService.getUser(id);
+    const { id } = req.user as { id: number }; // FIXME remove assertions and add proper types
+    const user = await this.userService.getUniqueUser({ id });
     if (!user) rep.notFound("User not found");
     rep.send(user);
   };
@@ -17,11 +17,7 @@ class UserController {
     rep: FastifyReply,
   ) => {
     const user = await this.userService.createUser(req.body);
-    const token = await rep.jwtSign(
-      { email: user.email, id: user.id },
-      { expiresIn: "10h" },
-    );
-    rep.code(201).send({ user, token });
+    rep.code(201).send({ user });
   };
 }
 

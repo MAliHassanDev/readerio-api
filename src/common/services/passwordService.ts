@@ -1,6 +1,6 @@
 import * as argon2 from "argon2";
 
-export class PasswordHasher {
+export class PasswordService {
   public async hash(password: string): Promise<string> {
     return argon2.hash(password);
   }

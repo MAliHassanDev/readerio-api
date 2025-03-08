@@ -1,8 +1,9 @@
 import Fastify from "fastify";
-import userRoutes from "@modules/user/user.routes.js";
 import AutoLoad from "@fastify/autoload";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
+import { UserModule } from "@modules/user/user.module.js";
+import { AuthModule } from "@modules/auth/auth.module.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -20,13 +21,17 @@ const fastify = Fastify({
 });
 
 async function initializeFastify() {
-  /* --------------- Plugins ------------ */
-  fastify.register(AutoLoad, {
+  /* --------------- Register Plugins ------------ */
+  await fastify.register(AutoLoad, {
     dir: join(__dirname, "..", "plugins"),
   });
 
-  /* --------------- Routes ------------ */
-  fastify.register(userRoutes, { prefix: "/api/vi/users" });
+  /* --------------- Register Module Routes ------------ */
+  const BASE_PREFIX = fastify.config.API_BASE_PREFIX;
+
+  void UserModule.getInstance(fastify).registerRoutes(`${BASE_PREFIX}/users`);
+
+  void AuthModule.getInstance(fastify).registerRoutes(`${BASE_PREFIX}/auth`);
 
   return fastify;
 }
